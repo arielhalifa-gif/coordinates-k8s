@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: coordinates-api
+
+spec:
+  selector:
+    matchLabels:
+      app: postgres-api
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: postgres-api
+    spec:
+      containers:
+        - name: coordinates-api
+          image: arielhalifa/coordinates-api:v1
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres-svc"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "coordinates_db"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
